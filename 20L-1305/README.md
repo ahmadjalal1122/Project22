@@ -65,11 +65,12 @@ The jsLayout argument is used to specify information.
           </argument>
         </arguments>
       </block>
+  
+**Introduction to the Magento Functional Testing Framework**   
     
-    **Introduction to the Magento Functional Testing Framework**
-    
-    The Magento Functional Testing Framework (MFTF) is a framework used to perform automated end-to-end functional testing.
-    **Goals**
+  The Magento Functional Testing Framework (MFTF) is a framework used to perform automated end-to-end functional testing.
+
+**Goals**
 1-To facilitate functional testing and minimize the effort it takes to perform regression testing.
 2-Enable extension developers to provide functional tests for their extensions.
 3-Ensure a common standard of quality between Magento, extension developers and system integrators.
