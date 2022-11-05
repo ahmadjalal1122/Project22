@@ -56,15 +56,15 @@ A UI component can be bound to one or more HTML templates using the KnockoutJS b
 Configured through layout XML.
 The jsLayout argument is used to specify information.
     
-<block name="block-name" template="Magento_Module::path_to_template.phtml">
-  <arguments>
-    <argument name="jsLayout" xsi:type="array">
-      <item name="components" xsi:type="array">
-        ...
-      </item>
-    </argument>
-  </arguments>
-</block>
+      <block name="block-name" template="Magento_Module::path_to_template.phtml">
+        <arguments>
+          <argument name="jsLayout" xsi:type="array">
+            <item name="components" xsi:type="array">
+              ...
+            </item>
+          </argument>
+        </arguments>
+      </block>
     
     **Introduction to the Magento Functional Testing Framework**
     
