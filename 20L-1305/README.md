@@ -1,4 +1,4 @@
-                                                  #Introduction to UI components
+                                                  Introduction to UI components
 UI components are used to represent distinct UI elements, such as tables, buttons, dialogs, and others.
 
 They are designed for simple and flexible user interface (UI) rendering. Components are responsible for rendering result page fragments and providing/supporting further interactions of JavaScript components and server.
@@ -196,23 +196,23 @@ Running all tests
 This topic does not aim to be a replacement for existing documentation about testing, but rather tries to highlight some thoughts on the subject.
 Although the truth of anything depends somewhat on the context, this topic attempts to provide information that is applicable in most situations.
 
-  Tests should be simple
-  
+      Tests should be simple
+
 Tests should be trivial to write. Simple, small classes with few collaborators are easy to test. If testing a class is difficult, the class probably has grown too large and does too much. Split the class into several classes, each of which does only one thing.
 
-  Manage dependencies
+      Manage dependencies
   
 A big part of making code testable is managing its dependencies. Dependencies can take many forms and they can be clearly stated or hidden.
 The fewer dependencies a class has and the more obvious they are, the easier it is to maintain and test the class. At the same time, the class is less likely to break because of future changes.
 
-  Creating new instances
+      Creating new instances
   
 We strongly recommend you do not:
 Use new to instantiate new objects, because that removes the flexibility the Magento dependency configuration offers.
 Use the ObjectManager directly in production code.  
   
-  
-  Interfaces over classes
+
+                                                          Interfaces over classes
   
 Dependencies on interfaces should be preferred over dependencies on classes because the former decouples your code from implementation details. This helps to isolate your code from future changes.
 
