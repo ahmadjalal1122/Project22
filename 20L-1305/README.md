@@ -95,3 +95,41 @@ Codeception results and console logs
 Screenshots and HTML failure report
 Allure formatted XML results
 Allure report dashboard of results
+  
+**  Running Unit Tests**
+Executing the Magento 2 unit tests is straight forward. They can be executed in several different ways.
+
+1-Command Line Interface (CLI)
+This option is useful for running the tests during Continuous Integration or on remote servers, or if no IDE with PHPUnit support is available. It only requires a minimum amount of setup.
+
+2-PhpStorm IDE
+Running the tests inside an IDE like PhpStorm IDE is convenient for developers, since it allows for easier navigation in the code and debugging.
+
+  
+  
+                                               ** Running Unit Tests in the CLI**
+**Running all unit tests**
+To run all tests, navigate to the Magento base directory and execute the following command:
+      ./vendor/bin/phpunit -c dev/tests/unit/phpunit.xml.dist
+  
+**Running only a subset of the unit tests**
+To run only tests within a specific directory branch, all you have to do is to specify the directory branch after the command.
+The following example tells PHPUnit to look for any file ending with Test.php within the directory branch app/code/Example/Module/Test/Unit and try to execute it.
+
+      ./vendor/bin/phpunit -c dev/tests/unit/phpunit.xml.dist app/code/Example/Module/Test/Unit
+  
+**  Use the correct PHP interpreter**
+On many development systems, you might have more one PHP version installed. You must know the correct PHP interpreter to use for testing; that is, use the same version of PHP to run the unit tests you use to run Magento.
+
+Some examples follow:
+
+Ubuntu: /usr/bin/php
+CentOS: /usr/bin/php
+OS X:
+
+System: /usr/bin/php
+Homebrew: /usr/local/Cellar/php56/5.6.19/bin/php
+MAMP: /Applications/MAMP/bin/php/php5.6.19/bin/php
+You can either fix your $PATH (please refer to your system documentation on how to do that), or specify the full path to the PHP interpreter. For example:
+
+/usr/local/Cellar/php56/5.6.19/bin/php -f vendor/bin/phpunit -- -c dev/tests/unit/phpunit.xml.di
