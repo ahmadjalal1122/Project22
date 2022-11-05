@@ -280,3 +280,51 @@ Make MyClass dependent on HttpRequest directly instead of using RequestInterface
 The benefit interfaces offer is that interfaces keep code decoupled from implementation details. This means that future changes will not cause your code to fail unless the interface is changed too.
 
 Also, interfaces can very easily be replaced by test doubles (also referred to as mocks). Mocking concrete classes can be much more complex.  
+
+    Each function has one single purpose
+  
+Functions should do only one thing and they should do it very well.
+
+Once you respect the single responsibility principle, you will know exactly what you are testing and your functions will be smaller and clearer. Have a look at the following examples:
+
+// Wrong
+
+    public function execute($customer)
+    {
+        $this->notifyCustomer($customer);
+    }
+
+    /**
+     * Save customer and notify by email
+     */
+    public function notifyCustomer($customer)
+    {
+        $this->customerRepository->save($customer);
+        $this->email->sendEmail($customer->getEmail());
+    }
+In the above example, the notifyCustomer method does more than the method’s name suggests. Such methods will be harder to maintain and can have some side effects you would not assume by its name.
+
+// Correct
+
+      public function execute($customer)
+      {
+          $this->saveCustomer($customer);
+          $this->notifyCustomer($customer->getEmail());
+      }
+
+      /**
+       * Save Customer
+       */
+      public function saveCustomer($customer)
+      {
+          $this->customerRepository->save($customer);
+      }
+
+      /**
+       * Notify customer by email
+       */
+      public function notifyCustomer($email)
+      {
+          $this->email->sendEmail($email);
+      }
+In the correct example, the notifyCustomer method is slightly refactored, and the only thing it does is to notify the customer by email. The rest of the logic was moved into a separate method, which has a clear name.
