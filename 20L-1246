@@ -1,0 +1,258 @@
+                                                                        UNIT TESTING
+ In terms of PHP and WordPress, a single 'unit' is a function or a class. Unit testing is dynamic testing of individual units in isolation. This means that the code has to be executed (dynamic). In contrast, static testing is checking for code smells, for which we use linters and code sniffers.
+Testing in isolation means that we only execute the code that we want to test and no other unit. We are not interested in coupling. That is what integration tests are for.
+
+NON-UNIT TESTING:
+
+function testRegisterTaxonomy()
+{
+
+  $tax = rand_str();
+
+  $this->assertFalse(taxonomy_exists($tax));
+
+  register_taxonomy($tax, 'post');
+
+  $this->assertTrue(taxonomy_exists($tax));
+  $this->assertFalse(is_taxonomy_hierarchical($tax));
+
+  unset($GLOBALS['wp_taxonomies'][$tax]);
+}
+
+What if your code is dependent on some core functionality? In that case, we need to mock our functions. In the world of unit testing, there are things like mocks, stubs, spies, fake objects, fake functions, dummy functions, test doubles, and other. We won't be going into detail about them. We want to execute real methods for the test without any errors and other fake units without any real logic (mocks) thrown in.
+
+For instance, let's say you have a method that will disable certain REST endpoints in your code. That looks like this:
+
+public function disableDefaultRestFields(array $endpoints): array
+{
+
+  // Disable users endpoint.
+  if ( isset( $endpoints['/wp/v2/users'] ) ) {
+    unset( $endpoints['/wp/v2/users'] );
+  }
+
+  if ( isset( $endpoints['/wp/v2/users/(?P<id>[\d]+)'] ) ) {
+    unset( $endpoints['/wp/v2/users/(?P<id>[\d]+)'] );
+  }
+
+  if ( isset( $endpoints['/wp/v2/users/me'] ) ) {
+    unset( $endpoints['/wp/v2/users/me'] );
+  }
+
+  // Disable media endpoint.
+  if ( isset( $endpoints['/wp/v2/media'] ) ) {
+    unset( $endpoints['/wp/v2/media'] );
+  }
+
+  if ( isset( $endpoints['/wp/v2/media/(?P<id>[\\d]+)'] ) ) {
+    unset( $endpoints['/wp/v2/media/(?P<id>[\\d]+)'] );
+  }
+
+  return $endpoints;
+}
+
+You are not interested whether this method is hooked on some action. The only thing you are interested in is that when you pass an array of endpoints to the disableDefaultRestFields() method, they don't contain the ones unset in the method. So you'll write a test that looks like this:
+
+class MyTest extends InitTestCase
+{
+  /**
+   * Initial setup for the test
+   */
+  public function setUp(): void
+  {
+      parent::setUp();
+
+      // Setup mock endpoints array.
+      $this->endpoints = [
+          '/wp/v2'                                 => [],
+          '/wp/v2/pages'                           => [],
+          '/wp/v2/media'                           => [],
+          '/wp/v2/media/(?P<id>[\d]+)'             => [],
+          '/wp/v2/types'                           => [],
+          '/wp/v2/types/(?P<type>[\w-]+)'          => [],
+          '/wp/v2/statuses'                        => [],
+          '/wp/v2/statuses/(?P<status>[\w-]+)'     => [],
+          '/wp/v2/taxonomies'                      => [],
+          '/wp/v2/taxonomies/(?P<taxonomy>[\w-]+)' => [],
+          '/wp/v2/users'                           => [],
+          '/wp/v2/users/(?P<id>[\d]+)'             => [],
+          '/wp/v2/users/me'                        => [],
+          '/wp/v2/categories'                      => [],
+          '/wp/v2/categories/(?P<id>[\d]+)'        => [],
+          '/wp/v2/tags'                            => [],
+          '/wp/v2/tags/(?P<id>[\d]+)'              => [],
+          '/wp/v2/comments'                        => [],
+          '/wp/v2/comments/(?P<id>[\d]+)'          => [],
+          '/wp/v2/settings'                        => [],
+      ];
+  }
+
+  /**
+   * Tear down after the test ends
+   */
+  public function tearDown(): void
+  {
+      parent::tearDown();
+
+      $this->endpoints = null;
+  }
+
+  /**
+   * Checks disabled rest endpoints
+   */
+  public function testRestEndpointsAreDisabled()
+  {
+      $endpoints = $this->endpoints;
+
+      $myClass = new MyClass();
+
+      $filteredEndpoints = $myClass->disableDefaultRestFields($endpoints);
+
+      $this->assertArrayNotHasKey('/wp/v2/users', $filteredEndpoints);
+      $this->assertArrayNotHasKey('/wp/v2/users/(?P<id>[\d]+)', $filteredEndpoints);
+      $this->assertArrayNotHasKey('/wp/v2/users/me', $filteredEndpoints);
+      $this->assertArrayNotHasKey('/wp/v2/media', $filteredEndpoints);
+      $this->assertArrayNotHasKey('/wp/v2/media/(?P<id>[\d]+)', $filteredEndpoints);
+  }
+}
+
+We've mocked the endpoint list and used it to check whether the method does what it is supposed to do. We are not interested in whether this will actually remove the endpoints in WordPress. For that, we would have to create integration tests, load WordPress, mock a REST server, and then test if the endpoints are removed.
+
+                                                                    Benefits Of Automated Testing
+                                                                    
+EARLY BUG DETECTION 
+While developing software, you can easily find bugs with automated testing tools. This can save a lot of time and effort in tracking down bugs.
+
+HIGHER SOFTWARE QUALITY 
+A tester with many years of experience can make mistakes when they have to prepare the same boring manual test scripts over and over again. Automated testing not only yields accurate results, but also saves time.
+
+EASY AND ROBUST REPORTING 
+Automated testing tools can track each and every test script. The execution of each test script can be seen in visual logs. The visual log, or report, typically displays the number of test scripts executed and their status (for example, passed, failed or skipped), their reported bugs and hints on how to fix the bugs.
+
+Building A WordPress Plugin
+The code for this plugin below will go in the wp-meta-verify.php file.
+
+<?php 
+
+class WP_Meta_Verify 
+{
+    public function __construct()
+    {
+        add_action('wp_head', \[$this, 'header_code']);
+    }
+
+    public function header_code()
+    {
+        $google_code = get_option('wpmv_google_code');
+        $bing_code = get_option('wpmv_google_code');
+
+        echo $this->google_site_verification($google_code);
+        echo $this->bing_site_verification($bing_code);
+    }
+
+    public function google_site_verification($code)
+    {
+        return "<meta name=\"google-site-verification\" content=\"$code\">";
+    }
+
+    public function bing_site_verification($code)
+    {
+        return "<meta name=\"msvalidate.01\" content=\"$code\">";
+    } 
+} 
+
+new WP_Meta_Verify();
+
+You might notice that we didn't include a settings page in the plugin, where you would typically save the Google and Bing verification code to. I did this on purpose to keep this simple and to focus our attention on what matters most. However, get_option('wpmv_google_code') and get_option('wpmv_bing_code') assume that there is a settings page, and they retrieve the verification codes from there.
+
+INSTALL PHPUNIT 
+To install PHPUnit, run the following commands.
+
+composer global require phpunit/phpunit:5.*
+
+INSTALL WP-CLI 
+To install WP-CLI, run the following commands.
+
+curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar 
+
+chmod +x wp-cli.phar 
+
+sudo mv wp-cli.phar /usr/local/bin/wp
+
+SET UP PLUGIN UNIT TEST 
+Change your terminal’s directory to the root of your WordPress installation, and run the command below to generate the plugin test files.
+
+wp scaffold plugin-tests wp-meta-verify
+
+Below is what the structure of the plugin will look like after the command above generates the test files.
+
+|-bin/
+|----install-wp-tests.sh
+|-tests/
+|----bootstrap.php
+|----test-sample.php
+|-.travis.yml
+|-phpcs.xml.dist
+|-phpunit.xml.dist
+|-wp-meta-verify.php
+
+Change your terminal’s directory to your plugin’s directory, and run the installation script:
+
+cd path-to-wordpress-plugin
+Copy
+bin/install-wp-tests.sh wordpress_test root '' localhost latest
+If you’re like me, then your MySQL username is not root, and the password is not empty. For example, suppose the username is homestead and the password is secret. You would run the installation script like so:
+
+bin/install-wp-tests.sh wordpress_test homestead 'secret' localhost latest
+
+Run the phpunit command to run the default test in tests/test-sample.php.
+
+Create a test-wp-meta-verify.php file in the tests folder. It will contain our plugin tests with the following setUp class.
+
+<?php 
+
+class WP_Meta_VerifyTest extends WP_UnitTestCase
+{
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->class_instance = new WP_Meta_Verify();
+    }
+
+    public function test_google_site_verification()
+    {
+
+    }
+
+    public function test_bing_site_verification()
+    {
+
+    }
+}
+
+It is worth noting that in order for a method to be considered a unit test, it must be prefixed with test. A best practice is to add a Test suffix to every test class, although it is not required. See WP_Meta_VerifyTest.
+
+Confused about what setUp() does? Just know that PHPUnit runs it once before each test method (and on fresh instances) of the test case class. There is also tearDown(), but it is run after each test method. There are also setUpBeforeClass() and tearDownAfterClass(), which run before and after each test case, respectively. A test case is basically a class that contains a number of test methods. See the WordPress Handbook and the PHPUnit documentation for more information.
+
+From the class above, it is pretty obvious we are going to be writing tests for the google_site_verification and bing_site_verification methods of our plugin class.
+
+public function test_google_site_verification()
+{
+    $meta_tag = $this->class_instance->google_site_verification('B6wFaCRbzWE42SyxSvKUOyyPxZfJCb5g');
+    $expected = '<meta name="google-site-verification" content="B6wFaCRbzWE42SyxSvKUOyyPxZfJCb5g">';
+
+    $this->assertEquals($expected, $meta_tag);
+}
+
+public function test_bing_site_verification()
+{
+    $meta_tag = $this->class_instance->bing_site_verification('B6wFaCRbzWE42SyxSvKUOyyPxZfJCb5g');
+    $expected = '<meta name="msvalidate.01" content="B6wFaCRbzWE42SyxSvKUOyyPxZfJCb5g">';
+
+    $this->assertEquals($expected, $meta_tag);
+}
+
+Basically, the tests will ensure that both methods return the correct meta tag when Google and Bing webmaster verification codes are passed to them as arguments.
+
+
