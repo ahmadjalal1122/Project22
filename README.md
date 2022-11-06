@@ -17,3 +17,6 @@ We start API testing and we collaborate with each other and learn python for API
 ## Meeting 6
 ### We done our meeting 6 on 8-10-2022
 We done with API testing and show demo to each other regarding any error and commit on the github. (https://meet.google.com/mbv-kjhg-asd)
+## Meeting 7
+### We discussed issues related unit testing in our todays meeting.
+As discussed by @MuhammadLaiqAli earlier, we were facing issues while installing magento on our local machines. Previously, we installed our setup on a live hosting and for unit testing , local setups were necessary. Finally we decided to perform unit testing on another framework "WORDPRESS".
