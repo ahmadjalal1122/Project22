@@ -1,20 +1,13 @@
-
 Feature: Magento Change Shipping Address
-Background:
+Background:Login
   Given I logged in as a valid user
 
-Scenario Outline: change shipping address of customer
-  Given I open edit shipping address page
-  When I enter <first name>
-  And I enter1 <last name>
-  And I enter2 <phone no>
-  And I enter3 <street address>
-  And I enter4 <Zip code>
-  And I enter5 <city>
-  And I enter6 <country>
-  And I clicks on save address button
-  Then my shipping address has been saved
+Scenario Outline: User will able search a product
+  Given I have a valid item to search
+  When I enter the <Search item> in the search textbox
+  Then the <Search message> appears on a search page
 
 Examples:
-|first name |last name |phone no      |street address         |Zip code   |city        |country   |
-|"Ahmad"    |"alii"     |"03477704011" |"404 A block Sabzazar" |"554433"   |"islamabad" |"Pakistan"|
+|Search item       |Search message                                           |  
+|"Men's jackets"   |"Search results for: 'Men's jackets'"                      |  
+|"Watches"         |"Search results for: 'Watches'"                            |
