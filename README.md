@@ -1,22 +1,70 @@
-# Project22
-## Meeting 1
-### We done our meeting 1 on 22-10-2022
-Here we collaborate with each other regarding our project and decide which test framework is better for us.
-## Meeting 2
-### We done our meeting 2 on 25-10-2022
-We are facing issue to test our live site. We faced issue to select any test frame work. We meet with sir for help.
-## Meeting 3
-### We done our meeting 3 on 27-10-2022
-Today we successfully integrate nightwatch and complete our first task and show each other work in the google meet. (https://meet.google.com/umk-tyco-hgd)
-## Meeting 4
-### We done our meeting 4 on 29-10-2022
-we show our UI test cases to each other and finalize some changes that are need for gerkin formats. (https://meet.google.com/umk-tylc-hcm)
-## Meeting 5
-### We done our meeting 5 on 2-10-2022
-We start API testing and we collaborate with each other and learn python for API testing (https://meet.google.com/qwe-ytre-kmh)
-## Meeting 6
-### We done our meeting 6 on 8-10-2022
-We done with API testing and show demo to each other regarding any error and commit on the github. (https://meet.google.com/mbv-kjhg-asd)
-## Meeting 7
-### We discussed issues related unit testing in our todays meeting.
-As discussed by @MuhammadLaiqAli earlier, we were facing issues while installing magento on our local machines. Previously, we installed our setup on a live hosting and for unit testing , local setups were necessary. Finally we decided to perform unit testing on another framework "WORDPRESS".
+# Getting Started with Create React App
+
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## Available Scripts
+
+In the project directory, you can run:
+
+### `npm start`
+
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+
+The page will reload when you make changes.\
+You may also see any lint errors in the console.
+
+### `npm test`
+
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+
+### `npm run build`
+
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
+
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
+
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+### `npm run eject`
+
+**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+
+If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+
+You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+
+## Learn More
+
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+
+To learn React, check out the [React documentation](https://reactjs.org/).
+
+### Code Splitting
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+
+### Analyzing the Bundle Size
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+
+### Making a Progressive Web App
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+
+### Advanced Configuration
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+
+### Deployment
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+
+### `npm run build` fails to minify
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
